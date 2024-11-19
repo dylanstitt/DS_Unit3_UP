@@ -8,6 +8,17 @@ DA = 2
 DL = 8
 DT = 1
 
+def setup(t):
+    turtle.mode("logo")
+    t.color("brown4")
+    t.speed("fastest")
+    t.hideturtle()
+
+    t.penup()
+    t.setx(0)
+    t.sety(-250)
+    t.pendown()
+
 def drawLeaf(t, thickness):
     t.color('green')
     t.pensize(thickness + 12)
@@ -49,17 +60,6 @@ def drawSym(t, treeLength, rotationAngle, branchLength, thickness):
     t.left(rotationAngle)
     t.backward(branchLength)
     return
-
-def setup(t):
-    turtle.mode("logo")
-    t.color("brown4")
-    t.speed("fastest")
-    t.hideturtle()
-
-    t.penup()
-    t.setx(0)
-    t.sety(-250)
-    t.pendown()
 
 def main():
     t = turtle.Turtle()
