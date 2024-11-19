@@ -4,31 +4,50 @@
 
 import turtle, random
 
-######################################### GREEN LEAVES AND RANDOM CHILDREN OFF BRANCHES
-
 DA = 2
-DL = 5
-DT = .5
+DL = 8
+DT = 1
 
-def draw(t, treeLength, rotationAngle, branchLength, thickness):
+def drawLeaf(t, thickness):
+    t.color('green')
+    t.pensize(thickness + 12)
+    t.forward(5)
+    t.backward(5)
+    t.color('brown4')
+    t.pensize(thickness)
+
+def drawAsym(t, treeLength, rotationAngle, branchLength, thickness):
     if treeLength == 1:
+        drawLeaf(t, thickness)
         return
 
     t.pensize(thickness)
-    num = random.randint(0, 2)
-    rotNum = random.randint(-7, 7)
+    rotNum = random.randint(-12, 11)
 
-    if num != 0:
-        t.forward(branchLength)
-        t.left(rotationAngle)
-        draw(t, treeLength - 1, rotationAngle + rotNum, branchLength - DL, thickness - DT)
+    t.forward(branchLength)
+    t.left(rotationAngle)
+    drawAsym(t, treeLength - 1, rotationAngle + rotNum, branchLength - DL, thickness - DT)
 
-        if num == 2:
-            t.right(2*rotationAngle)
-            draw(t, treeLength - 1, rotationAngle+rotNum, branchLength-DL, thickness-DT)
-            t.left(rotationAngle)
-            t.backward(branchLength)
-            return
+    t.right(2 * rotationAngle)
+    drawAsym(t, treeLength - 1, rotationAngle + rotNum, branchLength - DL, thickness - DT)
+    t.left(rotationAngle)
+    t.backward(branchLength)
+    return
+
+def drawSym(t, treeLength, rotationAngle, branchLength, thickness):
+    if treeLength == 1:
+        drawLeaf(t, thickness)
+        return
+
+    t.pensize(thickness)
+    t.forward(branchLength)
+    t.left(rotationAngle)
+    drawSym(t, treeLength - 1, rotationAngle, branchLength - DL, thickness - DT)
+
+    t.right(2 * rotationAngle)
+    drawSym(t, treeLength - 1, rotationAngle, branchLength - DL, thickness - DT)
+    t.left(rotationAngle)
+    t.backward(branchLength)
     return
 
 def setup(t):
@@ -44,12 +63,11 @@ def setup(t):
 
 def main():
     t = turtle.Turtle()
-
     setup(t)
-    draw(t, 8, 15, 80, 4)
+    drawAsym(t, 8, 15, 80, 10)
+    #drawSym(t, 8, 15, 80, 10)
 
     turtle.mainloop()
-
 
 if __name__ == '__main__':
     main()
